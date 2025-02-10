@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate2') %>
+<h1 style="text-align: center; font-weight: bold;" class="display-1">PROFILE</h1>
+<main class="container mt-5">
+    <section class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card" style="background-color: #c4d6da; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+          <div class="card-body">
+            <div class="mb-3"><b>Name:</b> <%= owner.name %></div>
+            <div class="mb-3"><b>Email:</b> <%= owner.email %></div>
+            <div class="mb-3"><b>Phone Number:</b> <%= owner.phoneNumber %></div>
+            <div class="mb-3"><b>Vehicle Type:</b> <%= owner.vehicleType %></div>
+            <div class="mb-3"><b>Make & Model :</b> <%= owner.makeModel %></div>
+            <div class="mb-3"><b>Vehicle Number: </b> <%= owner.vehicleNumber %></div>
+            <div class="mb-3"><b>Battery Capacity: </b> <%= owner.batteryCapacity %></div>
+            <form action="/logout">
+                <button class="btn btn-danger" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Logout</button>
+            </form>
+<br>
+</div>
+</div>
+</div>
+</section>
+</main>
+<br>

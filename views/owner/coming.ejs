@@ -1,0 +1,50 @@
+<% layout('layouts/boilerplate2') %>
+<% if(!booking.isaccepted){ %>
+    <h1 class="display1" style="text-align: center;">WAITING FOR DRIVER TO ACCEPT REQUEST ...</h1>
+    <br>
+    <div class="d-flex justify-content-center">
+    <div class="spinner-grow text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="spinner-grow text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+      <br>
+<% } %>
+
+<% if(booking.isaccepted){%>
+    <h1 class="display1" style="text-align: center;">REQUEST ACCEPTED </h1>
+    <h1 class="display1" style="text-align: center;">WAITING FOR DRIVER TO REACH DESTINATION</h1>
+    <br><br>
+    <% const driverid = booking.acceptedby ? booking.acceptedby._id : booking.acceptedby %>
+    <% console.log("Last wali driver id (jha vo leke jaa rha hai )"+driverid) %>
+    <form action="/driverdetails/<%=driverid%>/<%=booking._id%>">
+        <button type="submit" class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;" >See Driver Details</button>
+        <br>
+    </form>
+<% } %>
+
+<script>
+    setTimeout(() => {
+        location.reload();  
+    }, 10000);  
+</script>

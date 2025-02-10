@@ -1,0 +1,59 @@
+<% layout('layouts/boilerplate') %>
+<main class="container mt-5">
+    <section class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="background-color: #6A89A7; color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+          <div class="card-body">
+            <h2 class="text-center mb-4">Register as EV Owner!</h2>
+            <form action="/evdetails" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" required>
+                </div>
+                <div class="mb-3"><label class="form-label" for="email">EMAIL</label>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="Enter email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">PASSWORD</label>
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Enter password" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter phone number" required>
+                </div>
+                <div class="mb-3">
+                <label for="vehicleType" class="form-label">Select Vehicle</label>
+                    <select name="vehicleType" id="vehicleType" class="form-select" required>
+                        <option value="Car">Car</option>
+                        <option value="Bike">Bike</option>
+                        <option value="Scooter">Scooter</option>
+                        <option value="Bus">Bus</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                <label for="makeModel" class="form-label">Vehicle Make & Model</label>
+                <input type="text" name="makeModel" id="makeModel" class="form-control" placeholder="e.g., TATA NANO" required>
+            </div>
+            <div class="mb-3">
+                <label for="vehicleNumber" class="form-label">Vehicle Number</label>
+                <input type="text" name="vehicleNumber" id="vehicleNumber" class="form-control" placeholder="e.g., DL14CM0618" required>
+            </div>
+                <div class="mb-3">
+                <label for="batteryCapacity" class="form-label">Battery Capacity</label>
+                <input type="text" name="batteryCapacity" id="batteryCapacity" class="form-control" placeholder="e.g., 75 kWh" required>
+            </div>
+                <div class="mb-3">
+                <label for="insurance" class="form-label">Vehicle Insurance</label>
+                <input type="file" name="insurance" id="insurance"class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success w-100">Register</button>
+            </form>
+            <br>
+            <p>Already have an account? <a href="./evdetailslogin" style="color: rgb(72, 96, 235);">Login</a></p>
+        </div>
+    </div>
+  </div>
+</section>
+</main>
+<br>
+

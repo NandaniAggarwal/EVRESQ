@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate1') %>
+
+<h1 style="text-align: center; font-weight: bold;" class="display-1">EV RESQ</h1>
+<h2 class="display-2">Available Bookings</h2>
+
+<div class="card-container" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; margin-bottom: 15px;"></div>
+
+<% for(let booking of bookings){ %>
+    <% if(!booking.isaccepted){ %>
+    <div class="card" style="width: 50%; background-color:rgb(172, 212, 210)">
+        <div class="card-body">
+            <p class="card-text" style="font-weight: bold;">Name : <%= booking.name %></p>
+            <p class="card-text" style="font-weight: bold;">Current location : <%= booking.currentLocation %></p>
+            <form action="/accept-booking/<%= booking._id %>" method="POST">
+                <button type="submit" class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black; ">Accept Booking</button>
+            </form>
+        </div>
+    </div>
+    <% } %>
+    <br>
+<% } %>
+</div>
+
+<script>
+    setTimeout(() => {
+        location.reload();  
+    }, 10000);
+</script>

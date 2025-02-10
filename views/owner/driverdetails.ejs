@@ -1,0 +1,85 @@
+<% layout('layouts/boilerplate2') %>
+
+<% if (driver) { %>
+<main class="container mt-5">
+    <section class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="background-color: #c4d6da; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+
+          <div class="card-body">
+            <h1 class="display1" style="text-align: center;">DRIVER INFORMATION</h1>
+            <br>
+                    <div class="mb-3"><b>Name:</b> <%= driver.name %></div>
+                    <div class="mb-3"><b>Phone Number:</b> <%= driver.phoneNumber %></div>
+                    <div class="mb-3"><b>Vehicle Number: </b> <%= driver.vehicleNumber %></div>
+                    <div class="mb-3"><b>License Number: </b> <%= driver.licenseNumber %></div>
+                    <br>
+</div>
+</div>
+</div>
+</section>
+</main>
+<br>
+<% } else { %>
+    <div>No driver details available.</div>
+<% } %>
+
+<br>
+
+
+<% if(booking.status==='Pending'){ %>
+    <main class="container mt-5">
+        <section class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card" style="background-color: #c4d6da; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    
+              <div class="card-body">
+                <h1 class="display1" style="text-align: center;">CHARGING STATUS</h1>
+                <br>
+                        <div class="mb-3"><b>Charging Pending!</b></div>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                        <div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div><div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div><div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div></div>
+    </div>
+    </div>
+    </div>
+    </section>
+    </main>
+    <% } %>
+
+
+<% if(booking.status==='Completed'){ %>
+<main class="container mt-5">
+    <section class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="background-color: #c4d6da; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+
+          <div class="card-body">
+            <h1 class="display1" style="text-align: center;">CHARGING STATUS</h1>
+            <br>
+                    <div class="mb-3"><b>Charging completed!</b></div><span style='font-size:100px;'>&#10004;</span>
+                    <br>
+                    <form action="/completeBooking/<%= booking._id %>" method="POST">
+                        <button type="submit" class="btn btn-success">Charging completed</button>
+                    </form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<% } %>
+<br>
+
+
+<script>
+    setTimeout(() => {
+        location.reload();  
+    }, 10000);  
+</script>
+
