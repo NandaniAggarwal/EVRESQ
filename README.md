@@ -3,7 +3,7 @@
 
 # Deployed link :
 
-*The deployed link of our website is:* [EV RESQ](https://evresq.onrender.com)
+*_The deployed link of our website is:_* [EV RESQ](https://evresq.onrender.com)
 
 
 # Innovation and creativity:
