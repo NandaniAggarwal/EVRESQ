@@ -1,5 +1,11 @@
 # EV RESQ
 
+
+# Deployed link :
+
+*The deployed link of our website is:* [EV RESQ](https://evresq.onrender.com)
+
+
 # Innovation and creativity:
 
 We are currently in first year so we have made our project with some features such as:
