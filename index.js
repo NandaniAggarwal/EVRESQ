@@ -446,6 +446,9 @@ app.post('/logout', (req, res) => {
     });
 });
 
+app.get('/contact',(req,res)=>{
+    res.render('./contact');
+});
 
 app.all('*',(req,res,next)=>{
     next(new expresserror('Page Not Found',404));
