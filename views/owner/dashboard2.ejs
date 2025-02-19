@@ -1,10 +1,52 @@
 <% layout('layouts/boilerplate2') %>
 <h1 style="text-align: center; font-weight: bold;" class="display-1">EV RESQ</h1>
-<img src="map.jpg" alt="map" style="display: block;
-margin-left: auto;
-margin-right: auto;
-width: 50%;">
 <br>
+<div id="map">
+</div>
+
+<script> var map = L.map('map').setView([51.505, -0.09], 13); 
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map); 
+    let marker, circle, zoomed;
+    
+    navigator.geolocation.watchPosition(success, error);
+    
+    function success(pos) {
+    
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const accuracy = pos.coords.accuracy;
+    
+        if (marker) {
+            map.removeLayer(marker);
+            map.removeLayer(circle);
+        }
+        // Removes any existing marker and circule (new ones about to be set)
+    
+        marker = L.marker([lat, lng]).addTo(map);
+        circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+        // Adds marker to the map and a circle for accuracy
+    
+        if (!zoomed) {
+            zoomed = map.fitBounds(circle.getBounds()); 
+        }
+        // Set zoom to boundaries of accuracy circle
+    
+        map.setView([lat, lng]);
+        // Set map focus to current user position
+    
+    }
+    
+    function error(err) {
+    
+        if (err.code === 1) {
+            alert("Please allow geolocation access");
+        } else {
+            alert("Cannot get current location");
+        }
+    }
+    </script>
+
+    <br><br>
 <form action="/dashboard2" method="POST">
     <button class="btn btn-danger" style="display:block; margin-left: auto; margin-right: auto; background-color: black; width: 250px; height: 75px;">Request Booking</button>
 </form>

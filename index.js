@@ -137,7 +137,7 @@ app.get('/requestbooking',checkAuth,catchasync(async(req,res)=>{
 }));
 app.post('/requestbooking', checkAuth,catchasync(async (req, res) => {
     try {
-        const { currentLocation } = req.body;
+        const { currentLocation,currentLocationManual} = req.body;
         const userId = req.session.user ? req.session.user.id : null; // Get user ID from session
         if (!userId) {
             req.flash('error', 'You must be logged in to make a booking.');
@@ -150,6 +150,18 @@ app.post('/requestbooking', checkAuth,catchasync(async (req, res) => {
             req.flash('error', 'Vehicle not found. Please register the vehicle.');
             return res.redirect('/requestbooking');
         }
+
+        const { name, phoneNumber, vehicleNumber } = owner;
+        const locationToUse = currentLocation || currentLocationManual; // Use either current location or manual input
+
+        const newBooking = new Booking({
+            name,
+            phoneNumber,
+            vehicleNumber,
+            currentLocation: locationToUse,
+            vehicleId: owner._id  
+        });
+        /*
         const { name, phoneNumber, vehicleNumber } = owner;
         const newBooking = new Booking({
             name,
@@ -158,6 +170,7 @@ app.post('/requestbooking', checkAuth,catchasync(async (req, res) => {
             currentLocation,
             vehicleId: owner._id  
         });
+        */
         newBooking.status='Pending';
         newBooking.isaccepted=false;
         await newBooking.save();

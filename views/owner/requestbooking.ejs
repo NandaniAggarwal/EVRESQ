@@ -1,19 +1,131 @@
 <% layout('layouts/boilerplate2') %>
 <h1 style="text-align: center; font-weight: bold;" class="display-1">EV RESQ-REQUEST CHARGING</h1>
 <br>
-<img src="LOGO.jpg" alt="logo" style="display: block;
-margin-left: auto;
-margin-right: auto;
-width: 50%;
-border-radius: 50%;
-height: 500px;
-width:500px" >
 <br>
-<form action="/requestbooking" method="POST">
-<div class="mb-3">
-    <label for="currentLocation" class="form-label"><h3 class="display-5">Please enter your current location to continue </h3></label>
-    <input type="text" name="currentLocation" id="currentLocation" class="form-control" placeholder="e.g., Indira Gandhi Delhi Technical University For Women, Delhi- 92" required>
+
+<div id="map">
 </div>
-<button class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Confirm </button>
+<div id="location" style="font-size: 40px; " > Your Current Location: <span name="current-location" id="current-location"></span></div>
+<script>
+    const map = L.map('map').setView([51.505, -0.09], 13);
+    let currentLocationName = "";
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    function onLocationFound(e) {
+        const radius = e.accuracy;
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+        L.circle(e.latlng, radius).addTo(map);
+
+        // Geocode the coordinates to get the location name
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${e.latlng.lat}&lon=${e.latlng.lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                currentLocationName = data.display_name; 
+                document.getElementById('current-location').innerText = data.display_name;
+            });
+    }
+
+    function onLocationError(e) {
+        alert(e.message);
+    }
+
+    map.locate({setView: true, maxZoom: 16});
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+</script>
+<br>
+<!--
+<form action="/requestbooking" method="POST">
+    <button class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Continue with current Location</button>
 </form>
 <br>
+
+<form action="/requestbooking" method="POST">
+    <div class="mb-3">
+        <label for="currentLocation" class="form-label" ><h3 style="font-size: 40px; ">Or Please enter your current location manually </h3></label>
+        <input type="text" name="currentLocation" id="currentLocation" class="form-control" placeholder="e.g., Indira Gandhi Delhi Technical University For Women, Delhi- 92" required>
+    </div>
+    <button class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Confirm </button>
+    </form>
+    <br>
+-->
+<!-- Form for submitting the current location -->
+<form id="currentLocationForm" action="/requestbooking" method="POST" onsubmit="return submitCurrentLocation();">
+    <input type="hidden" name="currentLocation" id="currentLocation" value="">
+    <button type="button" class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;" onclick="submitCurrentLocation()">Continue with current Location</button>
+</form>
+<br>
+
+<!-- Form for manual entry -->
+<form action="/requestbooking" method="POST">
+    <div class="mb-3">
+        <label for="currentLocationManual" class="form-label"><h3 style="font-size: 40px;">Or Please enter your current location manually</h3></label>
+        <input type="text" name="currentLocationManual" id="currentLocationManual" class="form-control" placeholder="e.g., Indira Gandhi Delhi Technical University For Women, Delhi- 92" required>
+    </div>
+    <button class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Confirm</button>
+</form>
+<br>
+
+<script>
+    function submitCurrentLocation() {
+        // Set the hidden input value to the current location name
+        document.getElementById('currentLocation').value = currentLocationName;
+
+        // Check if the current location is empty
+        if (!currentLocationName) {
+            alert("Current location is not set. Please allow location access.");
+            return false; // Prevent form submission
+        }
+
+        // Submit the form
+        document.getElementById('currentLocationForm').submit();
+    }
+</script>
+<!--
+
+<script> var map = L.map('map').setView([51.505, -0.09], 13); 
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map); 
+let marker, circle, zoomed;
+
+navigator.geolocation.watchPosition(success, error);
+
+function success(pos) {
+
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const accuracy = pos.coords.accuracy;
+
+    if (marker) {
+        map.removeLayer(marker);
+        map.removeLayer(circle);
+    }
+    // Removes any existing marker and circule (new ones about to be set)
+
+    marker = L.marker([lat, lng]).addTo(map);
+    circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+    // Adds marker to the map and a circle for accuracy
+
+    if (!zoomed) {
+        zoomed = map.fitBounds(circle.getBounds()); 
+    }
+    // Set zoom to boundaries of accuracy circle
+
+    map.setView([lat, lng]);
+    // Set map focus to current user position
+
+}
+
+function error(err) {
+
+    if (err.code === 1) {
+        alert("Please allow geolocation access");
+    } else {
+        alert("Cannot get current location");
+    }
+}
+</script>
+-->
