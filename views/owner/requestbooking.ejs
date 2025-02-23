@@ -1,8 +1,7 @@
-<% layout('layouts/boilerplate2') %>
+<!--<% layout('layouts/boilerplate2') %>
 <h1 style="text-align: center; font-weight: bold;" class="display-1">EV RESQ-REQUEST CHARGING</h1>
 <br>
 <br>
-
 <div id="map">
 </div>
 <div id="location" style="font-size: 40px; " > Your Current Location: <span name="current-location" id="current-location"></span></div>
@@ -54,13 +53,15 @@
     <br>
 -->
 <!-- Form for submitting the current location -->
+ <!--
 <form id="currentLocationForm" action="/requestbooking" method="POST" onsubmit="return submitCurrentLocation();">
     <input type="hidden" name="currentLocation" id="currentLocation" value="">
     <button type="button" class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;" onclick="submitCurrentLocation()">Continue with current Location</button>
 </form>
 <br>
-
+-->
 <!-- Form for manual entry -->
+ <!--
 <form action="/requestbooking" method="POST">
     <div class="mb-3">
         <label for="currentLocationManual" class="form-label"><h3 style="font-size: 40px;">Or Please enter your current location manually</h3></label>
@@ -69,7 +70,8 @@
     <button class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;">Confirm</button>
 </form>
 <br>
-
+-->
+<!--
 <script>
     function submitCurrentLocation() {
         // Set the hidden input value to the current location name
@@ -85,6 +87,7 @@
         document.getElementById('currentLocationForm').submit();
     }
 </script>
+-->
 <!--
 
 <script> var map = L.map('map').setView([51.505, -0.09], 13); 
@@ -129,3 +132,107 @@ function error(err) {
 }
 </script>
 -->
+
+
+
+
+
+
+<% layout('layouts/boilerplate2') %>
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+    }
+    h1 {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+    }
+    #map {
+        height: 400px; /* Set a specific height for the map */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin-bottom: 20px; /* Space below the map */
+    }
+    #location {
+        font-size: 24px; /* Adjust font size */
+        text-align: center; /* Center the location text */
+        margin-bottom: 20px; /* Space below the location text */
+    }
+    .form-label {
+        font-size: 24px; /* Adjust label font size */
+    }
+    .btn-custom {
+        background-color: #007bff; /* Custom button color */
+        color: white; /* Button text color */
+        width: 100%; /* Full width */
+        margin-top: 10px; /* Space above the button */
+    }
+    .btn-custom:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }
+</style>
+<h1>EV RESQ - REQUEST CHARGING</h1>
+<div id="map"></div>
+<div id="location">Your Current Location: <span id="current-location" name="current-location"></span></div>
+<script>
+    const map = L.map('map').setView([51.505, -0.09], 13);
+    let currentLocationName = "";
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    function onLocationFound(e) {
+        const radius = e.accuracy;
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+        L.circle(e.latlng, radius).addTo(map);
+
+        // Geocode the coordinates to get the location name
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${e.latlng.lat}&lon=${e.latlng.lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                currentLocationName = data.display_name; 
+                document.getElementById('current-location').innerText = data.display_name;
+            });
+    }
+
+    function onLocationError(e) {
+        alert(e.message);
+    }
+    map.locate({setView: true, maxZoom: 16});
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+</script>
+
+<!-- Form for submitting the current location -->
+<form id="currentLocationForm" action="/requestbooking" method="POST" onsubmit="return submitCurrentLocation();">
+    <input type="hidden" name="currentLocation" id="currentLocation" value="">
+    <button type="button" class="btn btn-custom" onclick="submitCurrentLocation()">Continue with Current Location</button>
+</form>
+
+<!-- Form for manual entry -->
+<form action="/requestbooking" method="POST">
+    <div class="mb-3">
+        <label for="currentLocationManual" class="form-label">Or Please enter your current location manually</label>
+        <input type="text" name="currentLocationManual" id="currentLocationManual" class="form-control" placeholder="e.g., Indira Gandhi Delhi Technical University For Women, Delhi- 92" required>
+    </div>
+    <button class="btn btn-custom">Confirm</button>
+</form>
+<br>
+<script>
+    function submitCurrentLocation() {
+        // Set the hidden input value to the current location name
+        document.getElementById('currentLocation').value = currentLocationName;
+
+        // Check if the current location is empty
+        if (!currentLocationName) {
+            alert("Current location is not set. Please allow location access.");
+            return false; // Prevent form submission
+        }
+
+        // Submit the form
+        document.getElementById('currentLocationForm').submit();
+    }
+</script>

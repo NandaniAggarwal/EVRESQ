@@ -1,3 +1,4 @@
+<!--
 <% layout('layouts/boilerplate2') %>
 <h1 style="text-align: center; font-weight: bold;" class="display-1">PROFILE</h1>
 <main class="container mt-5">
@@ -20,5 +21,72 @@
 </div>
 </div>
 </section>
+</main>
+<br>
+-->
+<% layout('layouts/boilerplate2') %>
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+    }
+    .card {
+        background-color: #c4d6da; /* Card background color */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+    .card-header {
+        background-color: #007bff; /* Header background color */
+        color: white; /* Header text color */
+        border-top-left-radius: 10px; /* Rounded corners */
+        border-top-right-radius: 10px; /* Rounded corners */
+    }
+    .btn-danger {
+        background-color: #dc3545; /* Bootstrap danger color */
+        border: none; /* Remove border */
+        transition: background-color 0.3s; /* Smooth transition */
+    }
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker shade on hover */
+    }
+    .profile-icon {
+        font-size: 100px; /* Size of the icon */
+        color: #007bff; /* Color of the icon */
+        margin-bottom: 15px; /* Space below the icon */
+    }
+    .icon-container {
+        display: flex; /* Use flexbox */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        flex-direction: column; /* Stack items vertically */
+        margin-bottom: 15px; /* Space below the icon container */
+    }
+</style>
+
+<h1 class="text-center font-weight-bold display-1">PROFILE</h1>
+<main class="container mt-5">
+    <section class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Profile Information</h5>
+                </div>
+                <div class="card-body">
+                  <div class="icon-container">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </div>
+                    <div class="mb-3"><i class="fas fa-user" style="margin-right: 8px;"></i> <b>Name:</b> <%= owner.name %></div>
+                    <div class="mb-3"><i class="fas fa-envelope" style="margin-right: 8px;"></i> <b>Email:</b> <%= owner.email %></div>
+                    <div class="mb-3"><i class="fas fa-phone" style="margin-right: 8px;"></i> <b>Phone Number:</b> <%= owner.phoneNumber %></div>
+                    <div class="mb-3"><i class="fas fa-car" style="margin-right: 8px;"></i> <b>Vehicle Type:</b> <%= owner.vehicleType %></div>
+                    <div class="mb-3"><i class="fas fa-car-side" style="margin-right: 8px;"></i> <b>Make & Model:</b> <%= owner.makeModel %></div>
+                    <div class="mb-3"><i class="fas fa-id-card" style="margin-right: 8px;"></i> <b>Vehicle Number:</b> <%= owner.vehicleNumber %></div>
+                    <div class="mb-3"><i class="fas fa-battery-full" style="margin-right: 8px;"></i> <b>Battery Capacity:</b> <%= owner.batteryCapacity %></div>
+                    <form action="/logout">
+                        <button class="btn btn-danger w-100">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 <br>

@@ -1,3 +1,4 @@
+<!--
 <% layout('layouts/boilerplate2') %>
 <% if(!booking.isaccepted){ %>
     <h1 class="display1" style="text-align: center;">WAITING FOR DRIVER TO ACCEPT REQUEST ...</h1>
@@ -41,6 +42,39 @@
         <button type="submit" class="btn btn-primary" style="display:block; margin-left: auto; margin-right: auto; background-color: black;" >See Driver Details</button>
         <br>
     </form>
+<% } %>
+
+<script>
+    setTimeout(() => {
+        location.reload();  
+    }, 10000);  
+</script>
+-->
+
+<% layout('layouts/boilerplate2') %>
+<% if (!booking.isaccepted) { %>
+    <div class="text-center mt-5">
+        <h1 class="display-4">WAITING FOR DRIVER TO ACCEPT REQUEST...</h1>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Please wait while we find a driver for you.</p>
+    </div>
+<% } %>
+
+<% if (booking.isaccepted) { %>
+    <div class="text-center mt-5">
+        <h1 class="display-4">REQUEST ACCEPTED</h1>
+        <h2 class="display-5">WAITING FOR DRIVER TO REACH DESTINATION</h2>
+        <br><br>
+        <% const driverid = booking.acceptedby ? booking.acceptedby._id : booking.acceptedby %>
+        <form action="/driverdetails/<%= driverid %>/<%= booking._id %>">
+            <button type="submit" class="btn btn-dark btn-lg">See Driver Details</button>
+            <br>
+        </form>
+        <br>
+    </div>
 <% } %>
 
 <script>
